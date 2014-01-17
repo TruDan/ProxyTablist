@@ -1,14 +1,13 @@
-package eu.scrayos.proxytablist;
+/*package eu.scrayos.proxytablist;
 
 import com.google.common.base.Preconditions;
 import java.util.Collection;
 import java.util.HashSet;
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.tab.TabAPI;
 import net.md_5.bungee.api.tab.TabListAdapter;
 import net.md_5.bungee.protocol.packet.PacketC9PlayerListItem;
 
-public class ProxyTablistHandler extends TabListAdapter implements TabAPI {
+public class ProxyTablistHandler extends TabListAdapter {
 
     private static final int ROWS = 20;
     private static final int COLUMNS = 3;
@@ -16,9 +15,9 @@ public class ProxyTablistHandler extends TabListAdapter implements TabAPI {
         '0', '1', '2', '2', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
     };
     private static final int MAX_LEN = 16;
-    /*========================================================================*/
+    /*========================================================================*//*
     private final Collection<String> sentStuff = new HashSet<>();
-    /*========================================================================*/
+    /*========================================================================*//*
     private String[][] sent = new String[ROWS][COLUMNS];
     private String[][] slots = new String[ROWS][COLUMNS];
     private int rowLim;

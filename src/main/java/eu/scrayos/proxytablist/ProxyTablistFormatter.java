@@ -1,7 +1,8 @@
 package eu.scrayos.proxytablist;
 
-import java.util.LinkedHashSet;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+
+import java.util.LinkedHashSet;
 
 public class ProxyTablistFormatter {
 
@@ -10,7 +11,8 @@ public class ProxyTablistFormatter {
     public ProxyTablistFormatter(ProxyTablist plugin) {
         this.plugin = plugin;
     }
-    public static LinkedHashSet<String> codes = new LinkedHashSet<String>();
+
+    public static LinkedHashSet<String> codes = new LinkedHashSet<>();
 
     public static String nameFormatter(ProxiedPlayer player, String prefix) {
         if (prefix == null) {

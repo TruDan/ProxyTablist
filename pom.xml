@@ -2,68 +2,125 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>eu.scrayos</groupId>
-    <artifactId>ProxyTablist</artifactId>
-    <version>1.1</version>
-    <packaging>jar</packaging>
-
     <name>ProxyTablist</name>
-    <url>http://scrayos.eu</url>
+    <url>http://plugins.justchunks.net/custom/ProxyTablist</url>
+    <version>1.0</version>
+    <description>Customizes your Tablist on GLOBAL-mode!</description>
+    <groupId>eu.scrayos</groupId>
+    <artifactId>proxytablist</artifactId>
+    <packaging>jar</packaging>
+    <inceptionYear>2014</inceptionYear>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <issueManagement>
+        <system>Forum</system>
+        <url>http://justchunks.net</url>
+    </issueManagement>
+
+    <licenses>
+        <license>
+            <name>JustChunksLicense</name>
+            <url>http://justchunks.net/misc/licenses/justchunks.txt</url>
+            <distribution>repo</distribution>
+            <comments>-</comments>
+        </license>
+    </licenses>
+
+    <organization>
+        <name>JustChunks</name>
+        <url>http://justchunks.net</url>
+    </organization>
+    <developers>
+        <developer>
+            <id>scrayos</id>
+            <name>Scrayos</name>
+            <email>scrayos@justchunks.net</email>
+            <roles>
+                <role>Manager</role>
+                <role>Author</role>
+            </roles>
+            <url>http://scrayos.eu</url>
+            <timezone>1</timezone>
+            <organization>JustChunks</organization>
+            <organizationUrl>http://justchunks.net</organizationUrl>
+        </developer>
+    </developers>
+
     <repositories>
-        <repository>
-            <id>craftminecraft-dev</id>
-            <url>http://repo.craftminecraft.net/content/groups/public/</url>
-        </repository>
         <repository>
             <id>bungeecord</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </repository>
+        <repository>
+            <id>craftminecraft-dev</id>
+            <url>http://repo.craftminecraft.net/content/groups/public/</url>
         </repository>
     </repositories>
 
     <dependencies>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.md_5</groupId>
-            <artifactId>bungeecord</artifactId>
-            <version>1.5.1-R0.1-SNAPSHOT</version>
+            <groupId>net.md-5</groupId>
+            <artifactId>bungeecord-api</artifactId>
+            <version>1.7-SNAPSHOT</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>net.craftminecraft.bungee</groupId>
             <artifactId>bungeeyaml</artifactId>
             <version>1.2</version>
+            <type>jar</type>
         </dependency>
     </dependencies>
-    <reporting>
+
+    <build>
+        <finalName>${project.name}</finalName>
+        <defaultGoal>clean install</defaultGoal>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>*.yml</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.7</version>
                 <configuration>
-                    <configLocation>config/sun_checks.xml</configLocation>
+                    <skip>false</skip>
                 </configuration>
             </plugin>
-        </plugins>
-    </reporting>
-    <build>
-        <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
+                <version>3.1</version>
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
+                    <debug>false</debug>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <archive>
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                        <manifest>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                        </manifest>
+                        <manifestEntries>
+                            <Main-Class>${project.groupId}.${project.artifactId}.${project.name}</Main-Class>
+                        </manifestEntries>
+                    </archive>
                 </configuration>
             </plugin>
         </plugins>

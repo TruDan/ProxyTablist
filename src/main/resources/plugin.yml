@@ -1,5 +1,7 @@
-name: ProxyTablist
-main: eu.scrayos.proxytablist.ProxyTablist
-version: 1.1
+name: ${project.name}
+main: ${mainClass}
+version: ${project.version}
+description: ${project.description}
+website: ${project.url}
 author: Scrayos
 depends: [BungeeYAML]

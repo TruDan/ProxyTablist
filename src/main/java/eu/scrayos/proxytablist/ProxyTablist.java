@@ -1,13 +1,13 @@
 package eu.scrayos.proxytablist;
 
 import eu.scrayos.proxytablist.include.Metrics;
-import java.io.IOException;
 import net.craftminecraft.bungee.bungeeyaml.pluginapi.ConfigurablePlugin;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.event.ServerConnectEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
-import net.md_5.bungee.api.tab.TabAPI;
+
+import java.io.IOException;
 
 public class ProxyTablist extends ConfigurablePlugin implements Listener {
 
@@ -19,14 +19,11 @@ public class ProxyTablist extends ConfigurablePlugin implements Listener {
         try {
             Metrics metrics = new Metrics(this);
             metrics.start();
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
         }
     }
 
     @EventHandler
     public void onServerConnect(ServerConnectEvent e) {
-        ProxyTablistHandler.setSlot e
-        .getPlayer().setDisplayName(ProxyTablistFormatter.nameFormatter(e.getPlayer(), getConfig().getString("prefixes." + e.getTarget().getName())));
     }
 }
