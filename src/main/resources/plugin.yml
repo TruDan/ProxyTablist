@@ -1,5 +1,5 @@
 name: ${project.name}
-main: ${mainClass}
+main: ${project.groupId}.${project.artifactId}.${project.name}
 version: ${project.version}
 description: ${project.description}
 website: ${project.url}
