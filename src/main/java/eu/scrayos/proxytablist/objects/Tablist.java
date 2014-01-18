@@ -10,7 +10,7 @@ public class Tablist implements CustomTabList {
         for (String s : new String[]{}) {
             if (s.startsWith("$")) {
                 for (Variable v : ProxyTablist.getInstance().getDataHandler().getVariables()) {
-                    if () {
+                    if (v.getPattern().equalsIgnoreCase(s.substring(1))) {
 
                     }
                 }
