@@ -1,13 +1,20 @@
 package eu.scrayos.proxytablist.objects;
 
+import eu.scrayos.proxytablist.ProxyTablist;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.tab.CustomTabList;
 
 public class Tablist implements CustomTabList {
 
     public void refresh() {
-        for () {
+        for (String s : new String[]{}) {
+            if (s.startsWith("$")) {
+                for (Variable v : ProxyTablist.getInstance().getDataHandler().getVariables()) {
+                    if () {
 
+                    }
+                }
+            }
         }
     }
 
@@ -38,7 +45,7 @@ public class Tablist implements CustomTabList {
 
     @Override
     public String setSlot(int i, int i2, String s, boolean b) {
-        return;
+        return null;
     }
 
     @Override

@@ -1,8 +1,27 @@
 package eu.scrayos.proxytablist.handlers;
 
+import eu.scrayos.proxytablist.ProxyTablist;
+import eu.scrayos.proxytablist.objects.Variable;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
+import java.io.File;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.HashSet;
+import java.util.logging.Level;
+
 public class DataHandler {
+
+    private final HashSet<Variable> variables;
+
+    public DataHandler() {
+        variables = new HashSet<>();
+        loadVariables();
+    }
+
+    public HashSet<Variable> getVariables() {
+        return variables;
+    }
 
     public String formatName(ProxiedPlayer p, String prefix) {
         String name = p.getName();
@@ -12,5 +31,30 @@ public class DataHandler {
             }
         }
         return ((prefix + name).length() > 16 ? (prefix + name).substring(0, 16) : (prefix + name));
+    }
+
+    public void loadVariables() {
+        ClassLoader loader = null;
+        try {
+            loader = new URLClassLoader(new URL[]{new File(ProxyTablist.getInstance().getDataFolder() + "/variables").toURI().toURL()}, Variable.class.getClassLoader());
+        } catch (Exception ignored) {
+        }
+        for (File file : new File(ProxyTablist.getInstance().getDataFolder() + "/variables").listFiles()) {
+            try {
+                if (!file.getName().endsWith(".class")) {
+                    continue;
+                }
+                String name = file.getName().substring(0, file.getName().lastIndexOf("."));
+                Class<?> clazz = loader.loadClass(name);
+                Object object = clazz.newInstance();
+                if (!(object instanceof Variable)) {
+                    ProxyTablist.getInstance().getLogger().log(Level.WARNING, "Error while loading " + file.getName() + " (No Variable)");
+                    continue;
+                }
+                variables.add((Variable) object);
+            } catch (Exception ignored) {
+                ProxyTablist.getInstance().getLogger().log(Level.SEVERE, "Error while loading " + file.getName() + " (Unspecified Error)");
+            }
+        }
     }
 }

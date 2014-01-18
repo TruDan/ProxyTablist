@@ -7,6 +7,7 @@ import eu.scrayos.proxytablist.objects.Tablist;
 import net.craftminecraft.bungee.bungeeyaml.pluginapi.ConfigurablePlugin;
 import net.md_5.bungee.api.plugin.Listener;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -22,6 +23,7 @@ public class ProxyTablist extends ConfigurablePlugin implements Listener {
         tl = new Tablist();
         dh = new DataHandler();
         saveDefaultConfig();
+        new File(getDataFolder() + "/variables").mkdir();
         getProxy().getPluginManager().registerListener(this, new ServerConnectListener());
         getProxy().getScheduler().schedule(this, new Runnable() {
 
