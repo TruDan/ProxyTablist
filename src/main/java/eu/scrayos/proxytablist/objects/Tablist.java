@@ -7,12 +7,17 @@ import net.md_5.bungee.api.tab.CustomTabList;
 public class Tablist implements CustomTabList {
 
     public void refresh() {
-        for (String s : new String[]{}) {
-            if (s.startsWith("$")) {
-                for (Variable v : ProxyTablist.getInstance().getDataHandler().getVariables()) {
-                    if (v.getPattern().equalsIgnoreCase(s.substring(1))) {
-
+        for (int c = 0; c < getColumns(); c++) {
+            for (int r = 0; r < getRows(); r++) {
+                String columnvalue = ((String) ProxyTablist.getInstance().getConfig().getMapList("customcolumns").get(c).get(r));
+                if (columnvalue.startsWith("$")) {
+                    for (Variable v : ProxyTablist.getInstance().getDataHandler().getVariables()) {
+                        if (v.getPattern().equalsIgnoreCase(columnvalue.substring(1))) {
+                            setSlot(r, c, v.getText());
+                        }
                     }
+                } else {
+                    setSlot(r, c, columnvalue);
                 }
             }
         }
@@ -70,7 +75,7 @@ public class Tablist implements CustomTabList {
 
     @Override
     public void onPingChange(int i) {
-
+        //DO NOTHING
     }
 
     @Override
