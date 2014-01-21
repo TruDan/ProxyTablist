@@ -20,10 +20,10 @@ public class ProxyTablist extends ConfigurablePlugin implements Listener {
     @Override
     public void onEnable() {
         is = this;
+        new File(getDataFolder() + "/variables").mkdirs();
+        saveDefaultConfig();
         tl = new Tablist();
         dh = new DataHandler();
-        saveDefaultConfig();
-        new File(getDataFolder() + "/variables").mkdir();
         getProxy().getPluginManager().registerListener(this, new ServerConnectListener());
         getProxy().getScheduler().schedule(this, new Runnable() {
 
