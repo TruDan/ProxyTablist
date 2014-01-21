@@ -34,7 +34,11 @@ public class Tablist implements CustomTabList {
 
     @Override
     public void clear() {
-
+        for (int c = 0; c < getColumns(); c++) {
+            for (int r = 0; r < getRows(); r++) {
+                //TODO: CLEAR
+            }
+        }
     }
 
     @Override
