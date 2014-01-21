@@ -4,13 +4,18 @@ import eu.scrayos.proxytablist.ProxyTablist;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.tab.CustomTabList;
 
+import java.util.Iterator;
+
 public class Tablist implements CustomTabList {
 
     public void refresh() {
+        Iterator it = ProxyTablist.getInstance().getProxy().getPlayers().iterator();
         for (int c = 0; c < getColumns(); c++) {
             for (int r = 0; r < getRows(); r++) {
                 String columnvalue = ((String) ProxyTablist.getInstance().getConfig().getMapList("customcolumns").get(c).get(r));
-                if (columnvalue.startsWith("$")) {
+                if (columnvalue.equalsIgnoreCase("$player")) {
+                    setSlot(r, c, (it.hasNext() ? ProxyTablist.getInstance().getDataHandler().formatName((ProxiedPlayer) it.next()) : ""));
+                } else if (columnvalue.startsWith("$")) {
                     for (Variable v : ProxyTablist.getInstance().getDataHandler().getVariables()) {
                         if (v.getPattern().equalsIgnoreCase(columnvalue.substring(1))) {
                             setSlot(r, c, v.getText());
@@ -30,7 +35,7 @@ public class Tablist implements CustomTabList {
 
     @Override
     public int getColumns() {
-        return 3;
+        return ProxyTablist.getInstance().getProxy().getConfigurationAdapter().getListeners().iterator().next().getTabListSize() / 20;
     }
 
     @Override
@@ -40,7 +45,7 @@ public class Tablist implements CustomTabList {
 
     @Override
     public int getSize() {
-        return getColumns() * getRows();
+        return ProxyTablist.getInstance().getProxy().getConfigurationAdapter().getListeners().iterator().next().getTabListSize();
     }
 
     @Override
