@@ -40,7 +40,8 @@ public class Tablist implements CustomTabList {
 
     @Override
     public int getRows() {
-        return 20;
+        int size = ProxyTablist.getInstance().getProxy().getConfigurationAdapter().getListeners().iterator().next().getTabListSize();
+        return (size > 20 ? 20 : size);
     }
 
     @Override

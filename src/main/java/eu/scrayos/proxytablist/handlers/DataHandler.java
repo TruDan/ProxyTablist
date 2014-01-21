@@ -26,14 +26,10 @@ public class DataHandler {
     public String formatName(ProxiedPlayer p) {
         String name = p.getName();
         for (String c : new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "l", "m", "n", "o", "k", "r"}) {
-            if (p.hasPermission("proxy.tablist." + c)) {
-                name = "§" + c + name;
-            }
+            name = (p.hasPermission("proxy.tablist." + c) ? "§" + c + name : name);
         }
-        if (ProxyTablist.getInstance().getConfig().getString("prefixes." + p.getServer().getInfo().getName()) != null) {
-            name = ProxyTablist.getInstance().getConfig().getString("prefixes." + p.getServer().getInfo().getName()) + name;
-        }
-        return name;
+        String prefix = ProxyTablist.getInstance().getConfig().getString("prefixes." + p.getServer().getInfo().getName());
+        return (prefix != null ? prefix + name : name);
     }
 
     public void loadVariables() {
@@ -56,7 +52,7 @@ public class DataHandler {
                 }
                 variables.add((Variable) object);
             } catch (Exception ignored) {
-                ProxyTablist.getInstance().getLogger().log(Level.SEVERE, "Error while loading " + file.getName() + " (Unspecified Error)");
+                ProxyTablist.getInstance().getLogger().log(Level.WARNING, "Error while loading " + file.getName() + " (Unspecified Error)");
             }
         }
     }
