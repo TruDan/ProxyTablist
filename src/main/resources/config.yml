@@ -36,6 +36,9 @@ proxycore: false
 #|If set to true ProxyCore will be used to autoupdate ProxyTablist. Needs "proxycore". |#
 autoupdate: false
 
+#|                                      SORTING                                        |#
+#|    The way players get sorted. 0 = unsorted, 1 = alphanumerical, 2 = reversed AN.   |#
+sorting: 0
 #---------------------------------------------------------------------------------------#
 
 #|You got some variables for usage in the CustomColumns; For example the total Player- |#
@@ -48,20 +51,81 @@ autoupdate: false
 #|                                      get Erased.                                    |#
 
 #---------------------------------------------------------------------------------------#
-
 #|                                    CUSTOM COLUMNS                                   |#
 #|Care about the YAML-Formatting, too. Seriously it'll break the whole thing!          |#
 customcolumns:
--
-  - 'Test'
-  - 'Test2'
-  - 'Test3'
+  1:
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  2:
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  3:
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
+  - '$player:all'
 #---------------------------------------------------------------------------------------#
 
+#---------------------------------------------------------------------------------------#
 #|                                       PREFIXES                                      |#
-#|Here you can add your Servers: 'prefix' to enable a Prefix for that Server.          |#
+#|    Here you can add your Servers: 'prefix' to enable a Prefix for that Server.      |#
 prefixes:
   server1: '[s1]'
+#---------------------------------------------------------------------------------------#
+
 #---------------------------------------------------------------------------------------#
 #|                                   THANKS FOR USING                                  |#
 #|                                     PROXYTABLIST                                    |#
