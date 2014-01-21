@@ -1,7 +1,7 @@
-name: ${project.name}
+name: '${project.name}'
 main: ${project.groupId}.${project.artifactId}.${project.name}
 version: ${project.version}
-description: ${project.description}
-website: ${project.url}
-author: Scrayos
+description: '${project.description}'
+website: '${project.url}'
+author: 'Scrayos'
 depends: [BungeeYAML]
