@@ -13,10 +13,17 @@ import java.util.logging.Level;
 public class DataHandler {
 
     private final HashSet<Variable> variables;
+    private int refreshID;
 
     public DataHandler() {
         variables = new HashSet<>();
+        refreshID = 0;
         loadVariables();
+    }
+
+    public int getRefreshID() {
+        refreshID++;
+        return refreshID - 1;
     }
 
     public HashSet<Variable> getVariables() {
