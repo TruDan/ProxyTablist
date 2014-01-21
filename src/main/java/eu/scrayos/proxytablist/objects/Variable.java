@@ -1,5 +1,7 @@
 package eu.scrayos.proxytablist.objects;
 
+import java.util.regex.Pattern;
+
 /**
  * Thats the interface for custom Variables. The variables should be in the <b>"/plugins/ProxyTablist/variables/"</b> -
  * Directory.
@@ -14,7 +16,7 @@ public interface Variable {
      *
      * @return The Pattern or Template which is used to determine where to insert the Variable.
      */
-    public String getPattern();
+    public Pattern getPattern();
 
     /**
      * The Text or Value this Variable contains. The found matches will get replaced by this. The Text or Value is

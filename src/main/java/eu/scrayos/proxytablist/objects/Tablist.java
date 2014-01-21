@@ -12,12 +12,13 @@ public class Tablist implements CustomTabList {
         Iterator it = ProxyTablist.getInstance().getProxy().getPlayers().iterator();
         for (int c = 0; c < getColumns(); c++) {
             for (int r = 0; r < getRows(); r++) {
-                String columnvalue = ((String) ProxyTablist.getInstance().getConfig().getMapList("customcolumns").get(c).get(r));
-                if (columnvalue.equalsIgnoreCase("$player")) {
+                String columnvalue = (ProxyTablist.getInstance().getConfig().getStringList("customcolumns." + (c + 1)).get(r));
+                if (columnvalue.startsWith("$player")) {
+                    //TODO: Get expanded Args
                     setSlot(r, c, (it.hasNext() ? ProxyTablist.getInstance().getDataHandler().formatName((ProxiedPlayer) it.next()) : ""));
                 } else if (columnvalue.startsWith("$")) {
                     for (Variable v : ProxyTablist.getInstance().getDataHandler().getVariables()) {
-                        if (v.getPattern().equalsIgnoreCase(columnvalue.substring(1))) {
+                        if (v.getPattern().matcher(columnvalue.substring(1)).find()) {
                             setSlot(r, c, v.getText(columnvalue.substring(1)));
                         }
                     }
@@ -35,7 +36,7 @@ public class Tablist implements CustomTabList {
 
     @Override
     public int getColumns() {
-        return ProxyTablist.getInstance().getProxy().getConfigurationAdapter().getListeners().iterator().next().getTabListSize() / 20;
+        return (int) Math.floor(ProxyTablist.getInstance().getProxy().getConfigurationAdapter().getListeners().iterator().next().getTabListSize() / 20);
     }
 
     @Override
