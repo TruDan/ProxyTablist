@@ -14,9 +14,7 @@ public class Tablist implements CustomTabList {
         for (int c = 0; c < getColumns(); c++) {
             for (int r = 0; r < getRows(); r++) {
                 String columnvalue = (ProxyTablist.getInstance().getConfig().getStringList("customcolumns." + (c + 1)).get(r));
-                if (columnvalue.equalsIgnoreCase("$player")) {
-                    setSlot(r, c, (it.hasNext() ? ProxyTablist.getInstance().getDataHandler().formatName((ProxiedPlayer) it.next()) : ""));
-                } else if (columnvalue.startsWith("$")) {
+                if (columnvalue.startsWith("$")) {
                     for (Variable v : ProxyTablist.getInstance().getDataHandler().getVariables()) {
                         if (v.getPattern().matcher(columnvalue.substring(1)).find()) {
                             setSlot(r, c, v.getText(columnvalue.substring(1), refreshID));
