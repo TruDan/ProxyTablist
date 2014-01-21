@@ -20,7 +20,9 @@ public interface Variable {
      * The Text or Value this Variable contains. The found matches will get replaced by this. The Text or Value is
      * queried everytime the Tablist refreshes.
      *
+     * @param arg The pattern which was found for this Variable.
+     *
      * @return The Text or Value this Variable contains.
      */
-    public String getText();
+    public String getText(String arg);
 }

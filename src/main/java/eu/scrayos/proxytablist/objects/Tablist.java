@@ -18,7 +18,7 @@ public class Tablist implements CustomTabList {
                 } else if (columnvalue.startsWith("$")) {
                     for (Variable v : ProxyTablist.getInstance().getDataHandler().getVariables()) {
                         if (v.getPattern().equalsIgnoreCase(columnvalue.substring(1))) {
-                            setSlot(r, c, v.getText());
+                            setSlot(r, c, v.getText(columnvalue.substring(1)));
                         }
                     }
                 } else {
