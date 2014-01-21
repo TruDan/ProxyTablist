@@ -15,10 +15,15 @@ public class Tablist implements CustomTabList {
             for (int r = 0; r < getRows(); r++) {
                 String columnvalue = (ProxyTablist.getInstance().getConfig().getStringList("customcolumns." + (c + 1)).get(r));
                 if (columnvalue.startsWith("$")) {
+                    boolean placed = false;
                     for (Variable v : ProxyTablist.getInstance().getDataHandler().getVariables()) {
                         if (v.getPattern().matcher(columnvalue.substring(1)).find()) {
                             setSlot(r, c, v.getText(columnvalue.substring(1), refreshID));
+                            placed = true;
                         }
+                    }
+                    if (!placed) {
+                        setSlot(r, c, columnvalue);
                     }
                 } else {
                     setSlot(r, c, columnvalue);
