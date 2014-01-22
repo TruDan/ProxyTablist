@@ -29,15 +29,17 @@ public class Tablist implements CustomTabList {
                             Matcher m = v.getPattern().matcher(columnvalue.substring(1));
                             if (m.find()) {
                                 m.reset();
-                                for (ProxiedPlayer pp : ProxyTablist.getInstance().getProxy().getPlayers()) {
-                                    Short shrt = 0;
-                                    String text = ProxyTablist.getInstance().getDataHandler().verifyEntry(v.getText(columnvalue.substring(1), refreshID, shrt));
 
-                                    if(!text.equals("")) {
+                                Short shrt = 0;
+                                String text = ProxyTablist.getInstance().getDataHandler().verifyEntry(v.getText(columnvalue.substring(1), refreshID, shrt));
+
+                                for (ProxiedPlayer pp : ProxyTablist.getInstance().getProxy().getPlayers()) {
+                                    if (!text.equals("")) {
                                         pp.unsafe().sendPacket(new PlayerListItem(text, true, shrt));
                                         ProxyTablist.getInstance().getDataHandler().addString(text);
                                     }
                                 }
+
                                 placed = true;
                             }
                         }
