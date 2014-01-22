@@ -53,6 +53,10 @@ public class DataHandler {
         return (prefix != null ? prefix + name : name);
     }
 
+    public String verifyEntry(String arg) {
+        return (arg.length() > 16 ? arg.substring(0, 16) : arg);
+    }
+
     public void loadVariables() {
         ClassLoader loader = null;
         try {
@@ -64,8 +68,7 @@ public class DataHandler {
                 if (!file.getName().endsWith(".class")) {
                     continue;
                 }
-                String name = file.getName().substring(0, file.getName().lastIndexOf("."));
-                Class<?> clazz = loader.loadClass(name);
+                Class<?> clazz = loader.loadClass(file.getName());
                 Object object = clazz.newInstance();
                 if (!(object instanceof Variable)) {
                     ProxyTablist.getInstance().getLogger().log(Level.WARNING, "Error while loading " + file.getName() + " (No Variable)");
@@ -74,6 +77,7 @@ public class DataHandler {
                 variables.add((Variable) object);
             } catch (Exception ignored) {
                 ProxyTablist.getInstance().getLogger().log(Level.WARNING, "Error while loading " + file.getName() + " (Unspecified Error)");
+                ignored.printStackTrace();
             }
         }
     }

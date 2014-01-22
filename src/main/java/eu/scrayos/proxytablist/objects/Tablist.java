@@ -18,19 +18,19 @@ public class Tablist implements CustomTabList {
                     for (Variable v : ProxyTablist.getInstance().getDataHandler().getVariables()) {
                         if (v.getPattern().matcher(columnvalue.substring(1)).find()) {
                             for (ProxiedPlayer pp : ProxyTablist.getInstance().getProxy().getPlayers()) {
-                                pp.unsafe().sendPacket(new PlayerListItem(v.getText(columnvalue.substring(1), refreshID), true, (short) 0));
+                                pp.unsafe().sendPacket(new PlayerListItem(ProxyTablist.getInstance().getDataHandler().verifyEntry(v.getText(columnvalue.substring(1), refreshID)), true, (short) 0));
                             }
                             placed = true;
                         }
                     }
                     if (!placed) {
                         for (ProxiedPlayer pp : ProxyTablist.getInstance().getProxy().getPlayers()) {
-                            pp.unsafe().sendPacket(new PlayerListItem(columnvalue, true, (short) 0));
+                            pp.unsafe().sendPacket(new PlayerListItem(ProxyTablist.getInstance().getDataHandler().verifyEntry(columnvalue), true, (short) 0));
                         }
                     }
                 } else {
                     for (ProxiedPlayer pp : ProxyTablist.getInstance().getProxy().getPlayers()) {
-                        pp.unsafe().sendPacket(new PlayerListItem(columnvalue, true, (short) 0));
+                        pp.unsafe().sendPacket(new PlayerListItem(ProxyTablist.getInstance().getDataHandler().verifyEntry(columnvalue), true, (short) 0));
                     }
                 }
             }
