@@ -57,7 +57,6 @@ public class Tablist implements CustomTabList {
                 pp.unsafe().sendPacket(new PlayerListItem(s, false, (short) 0));
             }
         }
-
         ProxyTablist.getInstance().getDataHandler().resetStrings();
     }
 
