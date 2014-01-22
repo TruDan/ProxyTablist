@@ -14,9 +14,11 @@ public class DataHandler {
 
     private final HashSet<Variable> variables;
     private int refreshID;
+    private final HashSet<String> strings;
 
     public DataHandler() {
         variables = new HashSet<>();
+        strings = new HashSet<>();
         refreshID = 0;
         loadVariables();
     }
@@ -28,6 +30,18 @@ public class DataHandler {
 
     public HashSet<Variable> getVariables() {
         return variables;
+    }
+
+    public HashSet<String> getStrings() {
+        return strings;
+    }
+
+    public void addString(String arg) {
+        strings.add(arg);
+    }
+
+    public void resetStrings() {
+        strings.clear();
     }
 
     public String formatName(ProxiedPlayer p) {

@@ -8,6 +8,7 @@ import net.md_5.bungee.protocol.packet.PlayerListItem;
 public class Tablist implements CustomTabList {
 
     public void refresh() {
+        clear();
         int refreshID = ProxyTablist.getInstance().getDataHandler().getRefreshID();
         for (int c = 0; c < getColumns(); c++) {
             for (int r = 0; r < getRows(); r++) {
@@ -16,15 +17,21 @@ public class Tablist implements CustomTabList {
                     boolean placed = false;
                     for (Variable v : ProxyTablist.getInstance().getDataHandler().getVariables()) {
                         if (v.getPattern().matcher(columnvalue.substring(1)).find()) {
-                            setSlot(r, c, v.getText(columnvalue.substring(1), refreshID));
+                            for (ProxiedPlayer pp : ProxyTablist.getInstance().getProxy().getPlayers()) {
+                                pp.unsafe().sendPacket(new PlayerListItem(v.getText(columnvalue.substring(1), refreshID), true, (short) 0));
+                            }
                             placed = true;
                         }
                     }
                     if (!placed) {
-                        setSlot(r, c, columnvalue);
+                        for (ProxiedPlayer pp : ProxyTablist.getInstance().getProxy().getPlayers()) {
+                            pp.unsafe().sendPacket(new PlayerListItem(columnvalue, true, (short) 0));
+                        }
                     }
                 } else {
-                    setSlot(r, c, columnvalue);
+                    for (ProxiedPlayer pp : ProxyTablist.getInstance().getProxy().getPlayers()) {
+                        pp.unsafe().sendPacket(new PlayerListItem(columnvalue, true, (short) 0));
+                    }
                 }
             }
         }
@@ -32,17 +39,13 @@ public class Tablist implements CustomTabList {
 
     @Override
     public void clear() {
-        for (int c = 0; c < getColumns(); c++) {
-            for (int r = 0; r < getRows(); r++) {
-                for (ProxiedPlayer pp : ProxyTablist.getInstance().getProxy().getPlayers()) {
-                    pp.unsafe().sendPacket(new PlayerListItem("", true, (short) 0));
-                }
+        for (String s : ProxyTablist.getInstance().getDataHandler().getStrings()) {
+            for (ProxiedPlayer pp : ProxyTablist.getInstance().getProxy().getPlayers()) {
+                pp.unsafe().sendPacket(new PlayerListItem(s, false, (short) 0));
             }
         }
+        ProxyTablist.getInstance().getDataHandler().resetStrings();
     }
-    /*
-    Der Spieler weiß zu jeder Zeit ALLE PlayerListItems. Dem Spieler muss das Selbe Item 2 mal gesendet werden (Das 2. mal mit false im Online-Slot damit der Eintrag verworfen wird), so rücken die anderen Items nach. Beim Update muss so theoretisch JEDER vorherige Eintrag gelöscht werden.
-     */
 
     @Override
     public int getColumns() {
@@ -72,7 +75,7 @@ public class Tablist implements CustomTabList {
 
     @Override
     public void update() {
-
+        //EMPTY-FUNCTION
     }
 
     @Override
