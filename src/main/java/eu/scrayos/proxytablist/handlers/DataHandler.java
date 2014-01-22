@@ -68,8 +68,8 @@ public class DataHandler {
                 if (!file.getName().endsWith(".class")) {
                     continue;
                 }
-                Class<?> clazz = loader.loadClass(file.getName());
-                Object object = clazz.newInstance();
+                Class<?> aClass = loader.loadClass(file.getName().substring(0, file.getName().lastIndexOf(".")));
+                Object object = aClass.newInstance();
                 if (!(object instanceof Variable)) {
                     ProxyTablist.getInstance().getLogger().log(Level.WARNING, "Error while loading " + file.getName() + " (No Variable)");
                     continue;
