@@ -10,8 +10,8 @@ import net.craftminecraft.bungee.bungeeyaml.pluginapi.ConfigurablePlugin;
 import net.md_5.bungee.api.plugin.Listener;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
 public class ProxyTablist extends ConfigurablePlugin implements Listener {
 
@@ -39,8 +39,9 @@ public class ProxyTablist extends ConfigurablePlugin implements Listener {
         try {
             Metrics metrics = new Metrics(this);
             metrics.start();
-        } catch (IOException ignored) {
-            System.out.println("Failed to initialize Metrics!");
+        } catch (Exception ex) {
+            getLogger().log(Level.WARNING, "Failed to initialize Metrics!");
+            ex.printStackTrace();
         }
     }
 

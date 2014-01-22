@@ -4,6 +4,7 @@ import eu.scrayos.proxytablist.ProxyTablist;
 import eu.scrayos.proxytablist.objects.Variable;
 
 import java.io.File;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.HashSet;
@@ -19,26 +20,39 @@ public class DataHandler {
         variables = new HashSet<>();
         strings = new HashSet<>();
         refreshID = 0;
-        ClassLoader loader = null;
-        try {
-            loader = new URLClassLoader(new URL[]{new File(ProxyTablist.getInstance().getDataFolder() + "/variables").toURI().toURL()}, Variable.class.getClassLoader());
-        } catch (Exception ignored) {
-        }
-        for (File file : new File(ProxyTablist.getInstance().getDataFolder() + "/variables").listFiles()) {
+
+        File[] files = new File(ProxyTablist.getInstance().getDataFolder() + "/variables").listFiles();
+        if (files != null) {
+            HashSet<URL> urls = new HashSet<>(files.length);
+            for (File file : files) {
+                try {
+                    if (file.getName().endsWith(".jar")) {
+                        urls.add(file.toURI().toURL());
+                    }
+                } catch (MalformedURLException ignored) {
+                }
+            }
+            ClassLoader loader = null;
             try {
-                if (!file.getName().endsWith(".class")) {
-                    continue;
+                loader = new URLClassLoader(urls.toArray(new URL[urls.size()]), Variable.class.getClassLoader());
+            } catch (Exception ignored) {
+            }
+            for (File file : files) {
+                try {
+                    if (!file.getName().endsWith(".jar")) {
+                        continue;
+                    }
+                    Class<?> aClass = loader.loadClass(file.getName().substring(0, file.getName().lastIndexOf(".")));
+                    Object object = aClass.newInstance();
+                    if (!(object instanceof Variable)) {
+                        ProxyTablist.getInstance().getLogger().log(Level.WARNING, "Error while loading " + file.getName() + " (No Variable)");
+                        continue;
+                    }
+                    variables.add((Variable) object);
+                } catch (Exception ex) {
+                    ProxyTablist.getInstance().getLogger().log(Level.WARNING, "Error while loading " + file.getName() + " (Unspecified Error)");
+                    ex.printStackTrace();
                 }
-                Class<?> aClass = loader.loadClass(file.getName().substring(0, file.getName().lastIndexOf(".")));
-                Object object = aClass.newInstance();
-                if (!(object instanceof Variable)) {
-                    ProxyTablist.getInstance().getLogger().log(Level.WARNING, "Error while loading " + file.getName() + " (No Variable)");
-                    continue;
-                }
-                variables.add((Variable) object);
-            } catch (Exception ex) {
-                ProxyTablist.getInstance().getLogger().log(Level.WARNING, "Error while loading " + file.getName() + " (Unspecified Error)");
-                ex.printStackTrace();
             }
         }
     }
