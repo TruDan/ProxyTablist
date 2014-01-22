@@ -19,6 +19,7 @@ public class Tablist implements CustomTabList {
             for (int c = 0; c < getColumns(); c++) {
                 if (ProxyTablist.getInstance().getConfig().getStringList("customcolumns." + (c + 1)).size() == 0) {
                     ProxyTablist.getInstance().getConfig().set("customcolumns." + (c + 1), new ArrayList<>(new HashSet<>(Arrays.asList(new String[]{"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""}))));
+                    ProxyTablist.getInstance().saveConfig();
                 }
                 String columnvalue = ProxyTablist.getInstance().getConfig().getStringList("customcolumns." + (c + 1)).get(r);
                 if (columnvalue != null) {
@@ -29,8 +30,9 @@ public class Tablist implements CustomTabList {
                             if (m.find()) {
                                 m.reset();
                                 for (ProxiedPlayer pp : ProxyTablist.getInstance().getProxy().getPlayers()) {
-                                    pp.unsafe().sendPacket(new PlayerListItem(ProxyTablist.getInstance().getDataHandler().verifyEntry(v.getText(columnvalue.substring(1), refreshID)), true, (short) 0));
-                                    ProxyTablist.getInstance().getDataHandler().addString(ProxyTablist.getInstance().getDataHandler().verifyEntry(v.getText(columnvalue.substring(1), refreshID)));
+                                    Short shrt = 0;
+                                    pp.unsafe().sendPacket(new PlayerListItem(ProxyTablist.getInstance().getDataHandler().verifyEntry(v.getText(columnvalue.substring(1), refreshID, shrt)), true, shrt));
+                                    ProxyTablist.getInstance().getDataHandler().addString(ProxyTablist.getInstance().getDataHandler().verifyEntry(v.getText(columnvalue.substring(1), refreshID, shrt)));
                                 }
                                 placed = true;
                             }

@@ -24,8 +24,9 @@ public interface Variable {
      *
      * @param arg The pattern which was found for this Variable.
      * @param id The refresh-id of this call. Every refresh has its own id. It's the Xth time refreshing since start.
+     * @param pingRef The reference of the ping that this Column will got. Change it to modify the ping.
      *
      * @return The Text or Value this Variable contains.
      */
-    public String getText(String arg, int id);
+    public String getText(String arg, int id, Short pingRef);
 }
