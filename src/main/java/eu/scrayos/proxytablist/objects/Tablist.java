@@ -60,7 +60,6 @@ public class Tablist implements CustomTabList {
                 pp.unsafe().sendPacket(new PlayerListItem(s, false, (short) 0));
             }
         }
-
         ProxyTablist.getInstance().getDataHandler().resetStrings();
     }
 
@@ -92,7 +91,7 @@ public class Tablist implements CustomTabList {
 
     @Override
     public void update() {
-        //DO NOTHING
+        refresh();
     }
 
     @Override
