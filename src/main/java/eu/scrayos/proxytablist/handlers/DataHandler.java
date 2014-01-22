@@ -36,9 +36,9 @@ public class DataHandler {
                     continue;
                 }
                 variables.add((Variable) object);
-            } catch (Exception ignored) {
+            } catch (Exception ex) {
                 ProxyTablist.getInstance().getLogger().log(Level.WARNING, "Error while loading " + file.getName() + " (Unspecified Error)");
-                ignored.printStackTrace();
+                ex.printStackTrace();
             }
         }
     }
