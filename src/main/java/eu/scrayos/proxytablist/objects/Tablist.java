@@ -3,13 +3,11 @@ package eu.scrayos.proxytablist.objects;
 import eu.scrayos.proxytablist.ProxyTablist;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.tab.CustomTabList;
-
-import java.util.Iterator;
+import net.md_5.bungee.protocol.packet.PlayerListItem;
 
 public class Tablist implements CustomTabList {
 
     public void refresh() {
-        Iterator it = ProxyTablist.getInstance().getProxy().getPlayers().iterator();
         int refreshID = ProxyTablist.getInstance().getDataHandler().getRefreshID();
         for (int c = 0; c < getColumns(); c++) {
             for (int r = 0; r < getRows(); r++) {
@@ -36,10 +34,15 @@ public class Tablist implements CustomTabList {
     public void clear() {
         for (int c = 0; c < getColumns(); c++) {
             for (int r = 0; r < getRows(); r++) {
-                //TODO: CLEAR
+                for (ProxiedPlayer pp : ProxyTablist.getInstance().getProxy().getPlayers()) {
+                    pp.unsafe().sendPacket(new PlayerListItem("", true, (short) 0));
+                }
             }
         }
     }
+    /*
+    Der Spieler weiß zu jeder Zeit ALLE PlayerListItems. Dem Spieler muss das Selbe Item 2 mal gesendet werden (Das 2. mal mit false im Online-Slot damit der Eintrag verworfen wird), so rücken die anderen Items nach. Beim Update muss so theoretisch JEDER vorherige Eintrag gelöscht werden.
+     */
 
     @Override
     public int getColumns() {
@@ -74,17 +77,17 @@ public class Tablist implements CustomTabList {
 
     @Override
     public void init(ProxiedPlayer proxiedPlayer) {
-
+        //DO NOTHING
     }
 
     @Override
     public void onConnect() {
-
+        //DO NOTHING
     }
 
     @Override
     public void onServerChange() {
-
+        //DO NOTHING
     }
 
     @Override
@@ -94,7 +97,7 @@ public class Tablist implements CustomTabList {
 
     @Override
     public void onDisconnect() {
-
+        //DO NOTHING
     }
 
     @Override
