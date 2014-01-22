@@ -5,6 +5,9 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.tab.CustomTabList;
 import net.md_5.bungee.protocol.packet.PlayerListItem;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.regex.Matcher;
 
 public class Tablist implements CustomTabList {
@@ -12,20 +15,25 @@ public class Tablist implements CustomTabList {
     public void refresh() {
         clear();
         int refreshID = ProxyTablist.getInstance().getDataHandler().getRefreshID();
-        for (int c = 0; c < getColumns(); c++) {
-            for (int r = 0; r < getRows(); r++) {
-                String columnvalue = (ProxyTablist.getInstance().getConfig().getStringList("customcolumns." + (c + 1)).get(r));
-                if (columnvalue != null && !columnvalue.equalsIgnoreCase("") && columnvalue.startsWith("$")) {
+        for (int r = 0; r < getRows(); r++) {
+            for (int c = 0; c < getColumns(); c++) {
+                if (ProxyTablist.getInstance().getConfig().getStringList("customcolumns." + (c + 1)).size() == 0) {
+                    ProxyTablist.getInstance().getConfig().set("customcolumns." + (c + 1), new ArrayList<>(new HashSet<>(Arrays.asList(new String[]{"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""}))));
+                }
+                String columnvalue = ProxyTablist.getInstance().getConfig().getStringList("customcolumns." + (c + 1)).get(r);
+                if (columnvalue != null) {
                     boolean placed = false;
-                    for (Variable v : ProxyTablist.getInstance().getDataHandler().getVariables()) {
-                        Matcher m = v.getPattern().matcher(columnvalue.substring(1));
-                        if (m.find()) {
-                            m.reset();
-                            for (ProxiedPlayer pp : ProxyTablist.getInstance().getProxy().getPlayers()) {
-                                pp.unsafe().sendPacket(new PlayerListItem(ProxyTablist.getInstance().getDataHandler().verifyEntry(v.getText(columnvalue.substring(1), refreshID)), true, (short) 0));
-                                ProxyTablist.getInstance().getDataHandler().addString(ProxyTablist.getInstance().getDataHandler().verifyEntry(v.getText(columnvalue.substring(1), refreshID)));
+                    if (columnvalue.startsWith("$")) {
+                        for (Variable v : ProxyTablist.getInstance().getDataHandler().getVariables()) {
+                            Matcher m = v.getPattern().matcher(columnvalue.substring(1));
+                            if (m.find()) {
+                                m.reset();
+                                for (ProxiedPlayer pp : ProxyTablist.getInstance().getProxy().getPlayers()) {
+                                    pp.unsafe().sendPacket(new PlayerListItem(ProxyTablist.getInstance().getDataHandler().verifyEntry(v.getText(columnvalue.substring(1), refreshID)), true, (short) 0));
+                                    ProxyTablist.getInstance().getDataHandler().addString(ProxyTablist.getInstance().getDataHandler().verifyEntry(v.getText(columnvalue.substring(1), refreshID)));
+                                }
+                                placed = true;
                             }
-                            placed = true;
                         }
                     }
                     if (!placed) {
@@ -33,11 +41,6 @@ public class Tablist implements CustomTabList {
                             pp.unsafe().sendPacket(new PlayerListItem(ProxyTablist.getInstance().getDataHandler().verifyEntry(columnvalue), true, (short) 0));
                             ProxyTablist.getInstance().getDataHandler().addString(ProxyTablist.getInstance().getDataHandler().verifyEntry(columnvalue));
                         }
-                    }
-                } else {
-                    for (ProxiedPlayer pp : ProxyTablist.getInstance().getProxy().getPlayers()) {
-                        pp.unsafe().sendPacket(new PlayerListItem(ProxyTablist.getInstance().getDataHandler().verifyEntry(columnvalue), true, (short) 0));
-                        ProxyTablist.getInstance().getDataHandler().addString(ProxyTablist.getInstance().getDataHandler().verifyEntry(columnvalue));
                     }
                 }
             }
