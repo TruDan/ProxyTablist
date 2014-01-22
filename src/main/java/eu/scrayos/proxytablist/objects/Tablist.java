@@ -12,7 +12,7 @@ import java.util.regex.Matcher;
 
 public class Tablist implements CustomTabList {
 
-    public void refresh() {
+    public synchronized void refresh() {
         clear();
         int refreshID = ProxyTablist.getInstance().getDataHandler().getRefreshID();
         for (int r = 0; r < getRows(); r++) {
@@ -31,8 +31,9 @@ public class Tablist implements CustomTabList {
                                 m.reset();
                                 for (ProxiedPlayer pp : ProxyTablist.getInstance().getProxy().getPlayers()) {
                                     Short shrt = 0;
-                                    pp.unsafe().sendPacket(new PlayerListItem(ProxyTablist.getInstance().getDataHandler().verifyEntry(v.getText(columnvalue.substring(1), refreshID, shrt)), true, shrt));
-                                    ProxyTablist.getInstance().getDataHandler().addString(ProxyTablist.getInstance().getDataHandler().verifyEntry(v.getText(columnvalue.substring(1), refreshID, shrt)));
+                                    String text = ProxyTablist.getInstance().getDataHandler().verifyEntry(v.getText(columnvalue.substring(1), refreshID, shrt));
+                                    pp.unsafe().sendPacket(new PlayerListItem(text, true, shrt));
+                                    ProxyTablist.getInstance().getDataHandler().addString(text);
                                 }
                                 placed = true;
                             }
@@ -50,12 +51,13 @@ public class Tablist implements CustomTabList {
     }
 
     @Override
-    public void clear() {
+    public synchronized void clear() {
         for (String s : ProxyTablist.getInstance().getDataHandler().getStrings()) {
             for (ProxiedPlayer pp : ProxyTablist.getInstance().getProxy().getPlayers()) {
                 pp.unsafe().sendPacket(new PlayerListItem(s, false, (short) 0));
             }
         }
+
         ProxyTablist.getInstance().getDataHandler().resetStrings();
     }
 
