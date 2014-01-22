@@ -35,10 +35,6 @@ proxycore: false
 #|                                    AUTO - UPDATE                                    |#
 #|If set to true ProxyCore will be used to autoupdate ProxyTablist. Needs "proxycore". |#
 autoupdate: false
-
-#|                                      SORTING                                        |#
-#|    The way players get sorted. 0 = unsorted, 1 = alphanumerical, 2 = reversed AN.   |#
-sorting: 0
 #---------------------------------------------------------------------------------------#
 
 #|You got some variables for usage in the CustomColumns; For example the total Player- |#

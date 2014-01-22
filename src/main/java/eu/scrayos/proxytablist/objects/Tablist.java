@@ -5,6 +5,8 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.tab.CustomTabList;
 import net.md_5.bungee.protocol.packet.PlayerListItem;
 
+import java.util.regex.Matcher;
+
 public class Tablist implements CustomTabList {
 
     public void refresh() {
@@ -16,7 +18,9 @@ public class Tablist implements CustomTabList {
                 if (columnvalue != null && !columnvalue.equalsIgnoreCase("") && columnvalue.startsWith("$")) {
                     boolean placed = false;
                     for (Variable v : ProxyTablist.getInstance().getDataHandler().getVariables()) {
-                        if (v.getPattern().matcher(columnvalue.substring(1)).find()) {
+                        Matcher m = v.getPattern().matcher(columnvalue.substring(1));
+                        if (m.find()) {
+                            m.reset();
                             for (ProxiedPlayer pp : ProxyTablist.getInstance().getProxy().getPlayers()) {
                                 pp.unsafe().sendPacket(new PlayerListItem(ProxyTablist.getInstance().getDataHandler().verifyEntry(v.getText(columnvalue.substring(1), refreshID)), true, (short) 0));
                                 ProxyTablist.getInstance().getDataHandler().addString(ProxyTablist.getInstance().getDataHandler().verifyEntry(v.getText(columnvalue.substring(1), refreshID)));
