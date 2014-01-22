@@ -87,7 +87,7 @@ public class Tablist implements CustomTabList {
 
     @Override
     public void update() {
-        //EMPTY-FUNCTION
+        //DO NOTHING
     }
 
     @Override
