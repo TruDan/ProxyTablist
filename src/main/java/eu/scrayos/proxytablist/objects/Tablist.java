@@ -32,8 +32,11 @@ public class Tablist implements CustomTabList {
                                 for (ProxiedPlayer pp : ProxyTablist.getInstance().getProxy().getPlayers()) {
                                     Short shrt = 0;
                                     String text = ProxyTablist.getInstance().getDataHandler().verifyEntry(v.getText(columnvalue.substring(1), refreshID, shrt));
-                                    pp.unsafe().sendPacket(new PlayerListItem(text, true, shrt));
-                                    ProxyTablist.getInstance().getDataHandler().addString(text);
+
+                                    if(!text.equals("")) {
+                                        pp.unsafe().sendPacket(new PlayerListItem(text, true, shrt));
+                                        ProxyTablist.getInstance().getDataHandler().addString(text);
+                                    }
                                 }
                                 placed = true;
                             }
