@@ -4,7 +4,7 @@ import eu.scrayos.proxytablist.handlers.DataHandler;
 import eu.scrayos.proxytablist.include.Metrics;
 import eu.scrayos.proxytablist.listeners.PlayerDisconnectListener;
 import eu.scrayos.proxytablist.listeners.PostLoginListener;
-import eu.scrayos.proxytablist.listeners.ServerConnectListener;
+import eu.scrayos.proxytablist.listeners.ServerConnectedListener;
 import eu.scrayos.proxytablist.objects.Tablist;
 import net.craftminecraft.bungee.bungeeyaml.pluginapi.ConfigurablePlugin;
 import net.md_5.bungee.api.plugin.Listener;
@@ -26,7 +26,7 @@ public class ProxyTablist extends ConfigurablePlugin implements Listener {
         saveDefaultConfig();
         tl = new Tablist();
         dh = new DataHandler();
-        getProxy().getPluginManager().registerListener(this, new ServerConnectListener());
+        getProxy().getPluginManager().registerListener(this, new ServerConnectedListener());
         getProxy().getPluginManager().registerListener(this, new PostLoginListener());
         getProxy().getPluginManager().registerListener(this, new PlayerDisconnectListener());
         getProxy().getScheduler().schedule(this, new Runnable() {
