@@ -1,5 +1,6 @@
 package eu.scrayos.proxytablist;
 
+import eu.scrayos.proxytablist.commands.MainCommand;
 import eu.scrayos.proxytablist.handlers.DataHandler;
 import eu.scrayos.proxytablist.include.Metrics;
 import eu.scrayos.proxytablist.listeners.PlayerDisconnectListener;
@@ -29,6 +30,7 @@ public class ProxyTablist extends ConfigurablePlugin implements Listener {
         getProxy().getPluginManager().registerListener(this, new ServerConnectedListener());
         getProxy().getPluginManager().registerListener(this, new PostLoginListener());
         getProxy().getPluginManager().registerListener(this, new PlayerDisconnectListener());
+        getProxy().getPluginManager().registerCommand(this, new MainCommand());
         getProxy().getScheduler().schedule(this, new Runnable() {
 
             @Override
