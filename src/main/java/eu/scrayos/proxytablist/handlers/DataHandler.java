@@ -1,12 +1,14 @@
 package eu.scrayos.proxytablist.handlers;
 
 import eu.scrayos.proxytablist.ProxyTablist;
-import eu.scrayos.proxytablist.objects.Variable;
+import eu.scrayos.proxytablist.api.Variable;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.logging.Level;
 
@@ -14,11 +16,11 @@ public class DataHandler {
 
     private final HashSet<Variable> variables;
     private int refreshID;
-    private final HashSet<String> strings;
+    private final HashMap<ProxiedPlayer, HashSet<String>> columnCache;
 
     public DataHandler() {
         variables = new HashSet<>();
-        strings = new HashSet<>();
+        columnCache = new HashMap<>();
         refreshID = 0;
 
         File[] files = new File(ProxyTablist.getInstance().getDataFolder() + "/variables").listFiles();
@@ -66,16 +68,22 @@ public class DataHandler {
         return variables;
     }
 
-    public HashSet<String> getStrings() {
-        return strings;
+    public HashSet<String> getStrings(ProxiedPlayer pp) {
+        if (!columnCache.containsKey(pp)) {
+            columnCache.put(pp, new HashSet<String>());
+        }
+        return columnCache.get(pp);
     }
 
-    public void addString(String arg) {
-        strings.add(arg);
+    public void addString(String arg, ProxiedPlayer pp) {
+        if (!columnCache.containsKey(pp)) {
+            columnCache.put(pp, new HashSet<String>());
+        }
+        columnCache.get(pp).add(arg);
     }
 
-    public void resetStrings() {
-        strings.clear();
+    public void resetStrings(ProxiedPlayer pp) {
+        columnCache.remove(pp);
     }
 
     public String verifyEntry(String arg) {

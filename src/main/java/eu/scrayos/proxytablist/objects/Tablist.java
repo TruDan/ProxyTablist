@@ -1,6 +1,7 @@
 package eu.scrayos.proxytablist.objects;
 
 import eu.scrayos.proxytablist.ProxyTablist;
+import eu.scrayos.proxytablist.api.Variable;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.tab.CustomTabList;
 import net.md_5.bungee.protocol.packet.PlayerListItem;

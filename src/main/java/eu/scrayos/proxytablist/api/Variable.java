@@ -1,4 +1,6 @@
-package eu.scrayos.proxytablist.objects;
+package eu.scrayos.proxytablist.api;
+
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.regex.Pattern;
 
@@ -25,8 +27,9 @@ public interface Variable {
      * @param arg The pattern which was found for this Variable.
      * @param id The refresh-id of this call. Every refresh has its own id. It's the Xth time refreshing since start.
      * @param pingRef The reference of the ping that this Column will got. Change it to modify the ping.
+     * @param player The player this tablist gets send to.
      *
      * @return The Text or Value this Variable contains.
      */
-    public String getText(String arg, int id, Short pingRef);
+    public String getText(String arg, int id, Short pingRef, ProxiedPlayer player);
 }

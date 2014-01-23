@@ -18,7 +18,7 @@
 #---------------------------------------------------------------------------------------#
 #|                                       VERSION                                       |#
 #|Don't change the version, or your config will stop working. Just for update-purposes.|#
-version: 1
+version: 2
 
 #|                                     AUTOREFRESH                                     |#
 #|This Setting does set the amount of Time (in Seconds) for  the auto-refresh of PT.   |#
