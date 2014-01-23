@@ -23,18 +23,6 @@ version: 1
 #|                                     AUTOREFRESH                                     |#
 #|This Setting does set the amount of Time (in Seconds) for  the auto-refresh of PT.   |#
 autorefresh: 60
-
-#|                                      VAULTHOOK                                      |#
-#|Shall ProxyTablist query the Permissions from the Server, or use BungeeCord-BuiltIn. |#
-vaulthook: false
-
-#|                             PROXYCORE - IMPLEMENTATION                              |#
-#|Set this to true or false, depending on your descision. Has to be true for vaulthook.|#
-proxycore: false
-
-#|                                    AUTO - UPDATE                                    |#
-#|If set to true ProxyCore will be used to autoupdate ProxyTablist. Needs "proxycore". |#
-autoupdate: false
 #---------------------------------------------------------------------------------------#
 
 #|You got some variables for usage in the CustomColumns; For example the total Player- |#
@@ -113,6 +101,12 @@ customcolumns:
   - '$player'
   - '$player'
   - '$player'
+#---------------------------------------------------------------------------------------#
+
+#---------------------------------------------------------------------------------------#
+#|                               VARIABLESPECIFIC CONFIG                               |#
+#|        Here's place for own configsections from Variables of ProxyTablist.          |#
+variable: {}
 #---------------------------------------------------------------------------------------#
 
 #---------------------------------------------------------------------------------------#
