@@ -28,15 +28,12 @@ public class Tablist implements CustomTabList {
                         Matcher m = v.getPattern().matcher(columnvalue);
                         String text = columnvalue;
                         Short ping = 0;
-                        if (m.find()) {
-                            m.reset();
-                            while (m.find()) {
-                                String replText = v.getText(m.group(), refreshID, ping, pp);
-                                text = m.replaceFirst(replText);
-                                m = v.getPattern().matcher(text);
-                            }
-                            text = ProxyTablist.getInstance().getDataHandler().verifyEntry(text);
+                        while (m.find()) {
+                            String replText = v.getText(m.group(), refreshID, ping, pp);
+                            text = m.replaceFirst(replText);
+                            m = v.getPattern().matcher(text);
                         }
+                        text = ProxyTablist.getInstance().getDataHandler().verifyEntry(text);
                         if (!text.equals("")) {
                             pp.unsafe().sendPacket(new PlayerListItem(text, true, ping));
                             ProxyTablist.getInstance().getDataHandler().addString(text, pp);
