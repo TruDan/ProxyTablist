@@ -28,8 +28,9 @@ public interface Variable {
      * @param id The refresh-id of this call. Every refresh has its own id. It's the Xth time refreshing since start.
      * @param pingRef The reference of the ping that this Column will got. Change it to modify the ping.
      * @param player The player this tablist gets send to.
+     * @param global Decides in which View this text gets layed (true for global, false for player)
      *
      * @return The Text or Value this Variable contains.
      */
-    public String getText(String arg, int id, Short pingRef, ProxiedPlayer player);
+    public String getText(String arg, int id, Short pingRef, ProxiedPlayer player, Boolean global);
 }

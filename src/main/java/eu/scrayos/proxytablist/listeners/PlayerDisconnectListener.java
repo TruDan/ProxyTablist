@@ -1,6 +1,7 @@
 package eu.scrayos.proxytablist.listeners;
 
 import eu.scrayos.proxytablist.ProxyTablist;
+import eu.scrayos.proxytablist.objects.GlobalTablistView;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
@@ -15,8 +16,10 @@ public class PlayerDisconnectListener implements Listener {
 
             @Override
             public void run() {
-                ProxyTablist.getInstance().getTablist().refresh();
+                ProxyTablist.getInstance().getDataHandler().update();
             }
         }, 100, TimeUnit.MILLISECONDS);
+
+        GlobalTablistView.removePlayerTablistView(e.getPlayer());
     }
 }
