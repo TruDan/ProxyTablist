@@ -9,6 +9,6 @@ public class ServerConnectedListener implements Listener {
 
     @EventHandler
     public void onServerConnected(ServerConnectedEvent e) {
-        ProxyTablist.getInstance().getTablist().refresh();
+        ProxyTablist.getInstance().getDataHandler().update();
     }
 }
