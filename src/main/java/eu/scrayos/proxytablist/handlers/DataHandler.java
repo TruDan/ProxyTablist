@@ -28,7 +28,7 @@ public class DataHandler {
         loadConfigTablist();
     }
 
-    private void loadVariables() {
+    public void loadVariables() {
         File[] files = new File(ProxyTablist.getInstance().getDataFolder() + "/variables").listFiles();
         if (files != null) {
             //Check for Files who end with a .jar and add them to the be loaded list
