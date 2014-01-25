@@ -51,7 +51,7 @@ public class DataHandler {
             }
 
             //If there is a valid Classloader load the jars
-            if(loader != null) {
+            if (loader != null) {
                 for (File file : files) {
                     try {
                         if (!file.getName().endsWith(".jar")) {
@@ -98,9 +98,14 @@ public class DataHandler {
                 for (Variable v : loadedVariables) {
                     Matcher m = v.getPattern().matcher(columnvalue);
 
-                    if(m.find()) {
-                        variableContainers[slot] = new VariableContainer(v, m.group());
-                        break;
+                    while (m.find()) {
+                        if (variableContainers[slot] == null) {
+                            variableContainers[slot] = new VariableContainer();
+                        }
+
+                        variableContainers[slot].addVariableMatch(v, m.group());
+                        String text = m.replaceFirst("");
+                        m = v.getPattern().matcher(text);
                     }
                 }
 
@@ -116,33 +121,37 @@ public class DataHandler {
         int refreshId = getRefreshID();
 
         //Check each Row first so we check them as they get delivered
-        for (int r = 0; r < ProxyTablist.getInstance().getTablist().getRows(); r++) {
-            for (int c = 0; c < ProxyTablist.getInstance().getTablist().getColumns(); c++) {
-                //If there is a new Column which is not in the Config, create a new empty column for it
-                if (ProxyTablist.getInstance().getConfig().getStringList("customcolumns." + (c + 1)).size() == 0) {
-                    ProxyTablist.getInstance().getConfig().set("customcolumns." + (c + 1), new ArrayList<>(new HashSet<>(Arrays.asList(new String[]{"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""}))));
-                    ProxyTablist.getInstance().saveConfig();
-                }
-
-                //Check which Column handles this slot
-                String columnvalue = ProxyTablist.getInstance().getConfig().getStringList("customcolumns." + (c + 1)).get(r);
-                if(variableContainers[slot] == null) {
-                    //Check for static text change
-                    if((GlobalTablistView.getSlot(slot+1) == null && !columnvalue.equals("")) || !GlobalTablistView.getSlot(slot+1).equals(columnvalue)) {
-                        GlobalTablistView.setSlot(slot+1, columnvalue, (short) 0);
+        for (ProxiedPlayer pp : ProxyTablist.getInstance().getProxy().getPlayers()) {
+            for (int r = 0; r < ProxyTablist.getInstance().getTablist().getRows(); r++) {
+                for (int c = 0; c < ProxyTablist.getInstance().getTablist().getColumns(); c++) {
+                    //If there is a new Column which is not in the Config, create a new empty column for it
+                    if (ProxyTablist.getInstance().getConfig().getStringList("customcolumns." + (c + 1)).size() == 0) {
+                        ProxyTablist.getInstance().getConfig().set("customcolumns." + (c + 1), new ArrayList<>(new HashSet<>(Arrays.asList(new String[]{"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""}))));
+                        ProxyTablist.getInstance().saveConfig();
                     }
-                } else {
-                    VariableContainer currentVariable = variableContainers[slot];
 
-                    for(ProxiedPlayer pp : ProxyTablist.getInstance().getProxy().getPlayers()) {
+                    //Check which Column handles this slot
+                    String columnvalue = ProxyTablist.getInstance().getConfig().getStringList("customcolumns." + (c + 1)).get(r);
+                    if (variableContainers[slot] == null) {
+                        //Check for static text change
+                        if ((GlobalTablistView.getSlot(slot + 1) == null && !columnvalue.equals("")) || !GlobalTablistView.getSlot(slot + 1).equals(columnvalue)) {
+                            GlobalTablistView.setSlot(slot + 1, columnvalue, (short) 0);
+                        }
+                    } else {
+                        VariableContainer currentVariable = variableContainers[slot];
+
                         Short ping = 0;
                         Boolean global = true;
-                        String text = currentVariable.getVariable().getText(currentVariable.getFoundStr(), refreshId, ping, pp, global);
+                        String text = columnvalue;
 
-                        if(global) {
-                            GlobalTablistView.setSlot(slot+1, text, ping);
+                        for (int i = 0; i < currentVariable.getVariable().size(); i++) {
+                            text = text.replace(currentVariable.getFoundStr().get(i), currentVariable.getVariable().get(i).getText(currentVariable.getFoundStr().get(i), refreshId, ping, pp, global));
+                        }
+
+                        if (global) {
+                            GlobalTablistView.setSlot(slot + 1, text, ping);
                         } else {
-                            GlobalTablistView.getPlayerTablistView(pp).setSlot(slot+1, text, ping);
+                            GlobalTablistView.getPlayerTablistView(pp).setSlot(slot + 1, text, ping);
                         }
                     }
                 }
