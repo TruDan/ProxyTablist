@@ -117,35 +117,34 @@ public class DataHandler {
     public void update() {
         int refreshId = getRefreshID();
 
-        //Check each Row first so we check them as they get delivered
-        for (ProxiedPlayer pp : ProxyTablist.getInstance().getProxy().getPlayers()) {
-            //Keep track of the Array slot :)
-            int slot = 0;
+        //Keep track of the Array slot :)
+        int slot = 0;
 
-            for (int r = 0; r < ProxyTablist.getInstance().getTablist().getRows(); r++) {
-                for (int c = 0; c < ProxyTablist.getInstance().getTablist().getColumns(); c++) {
-                    //If there is a new Column which is not in the Config, create a new empty column for it
-                    if (ProxyTablist.getInstance().getConfig().getStringList("customcolumns." + (c + 1)).size() == 0) {
-                        ProxyTablist.getInstance().getConfig().set("customcolumns." + (c + 1), new ArrayList<>(new HashSet<>(Arrays.asList(new String[]{"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""}))));
-                        ProxyTablist.getInstance().saveConfig();
+        for (int r = 0; r < ProxyTablist.getInstance().getTablist().getRows(); r++) {
+            for (int c = 0; c < ProxyTablist.getInstance().getTablist().getColumns(); c++) {
+                //If there is a new Column which is not in the Config, create a new empty column for it
+                if (ProxyTablist.getInstance().getConfig().getStringList("customcolumns." + (c + 1)).size() == 0) {
+                    ProxyTablist.getInstance().getConfig().set("customcolumns." + (c + 1), new ArrayList<>(new HashSet<>(Arrays.asList(new String[]{"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""}))));
+                    ProxyTablist.getInstance().saveConfig();
+                }
+
+                //Check which Column handles this slot
+                String columnvalue = ProxyTablist.getInstance().getConfig().getStringList("customcolumns." + (c + 1)).get(r);
+                if (variableContainers[slot] == null) {
+                    //Check for static text change
+                    if ((GlobalTablistView.getSlot(slot + 1) == null && !columnvalue.equals("")) || !GlobalTablistView.getSlot(slot + 1).equals(columnvalue)) {
+                        GlobalTablistView.setSlot(slot + 1, columnvalue, (short) 0);
                     }
-
-                    //Check which Column handles this slot
-                    String columnvalue = ProxyTablist.getInstance().getConfig().getStringList("customcolumns." + (c + 1)).get(r);
-                    if (variableContainers[slot] == null) {
-                        //Check for static text change
-                        if ((GlobalTablistView.getSlot(slot + 1) == null && !columnvalue.equals("")) || !GlobalTablistView.getSlot(slot + 1).equals(columnvalue)) {
-                            GlobalTablistView.setSlot(slot + 1, columnvalue, (short) 0);
-                        }
-                    } else {
-                        VariableContainer currentVariable = variableContainers[slot];
-
+                } else {
+                    VariableContainer currentVariable = variableContainers[slot];
+                    //Check each Row first so we check them as they get delivered
+                    for (ProxiedPlayer pp : ProxyTablist.getInstance().getProxy().getPlayers()) {
                         Short ping = 0;
                         Boolean global = true;
                         String text = columnvalue;
 
                         for (int i = 0; i < currentVariable.getVariable().size(); i++) {
-                            text = text.replace(currentVariable.getFoundStr().get(i), currentVariable.getVariable().get(i).getText(currentVariable.getFoundStr().get(i), refreshId, ping, pp, global));
+                            text = text.replace(currentVariable.getFoundStr().get(i), currentVariable.getVariable().get(i).getText(currentVariable.getFoundStr().get(i), refreshId, ping, pp, global, slot));
                         }
 
                         if (global) {
@@ -159,6 +158,7 @@ public class DataHandler {
                 slot++;
             }
         }
+
 
         //Let the Tablist refresh
         GlobalTablistView.fireUpdate();
