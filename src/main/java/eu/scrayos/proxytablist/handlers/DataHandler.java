@@ -115,13 +115,13 @@ public class DataHandler {
     }
 
     public void update() {
-        //Keep track of the Array slot :)
-        int slot = 0;
-
         int refreshId = getRefreshID();
 
         //Check each Row first so we check them as they get delivered
         for (ProxiedPlayer pp : ProxyTablist.getInstance().getProxy().getPlayers()) {
+            //Keep track of the Array slot :)
+            int slot = 0;
+
             for (int r = 0; r < ProxyTablist.getInstance().getTablist().getRows(); r++) {
                 for (int c = 0; c < ProxyTablist.getInstance().getTablist().getColumns(); c++) {
                     //If there is a new Column which is not in the Config, create a new empty column for it
