@@ -29,8 +29,9 @@ public interface Variable {
      * @param pingRef The reference of the ping that this Column will got. Change it to modify the ping.
      * @param player The player this tablist gets send to.
      * @param global Decides in which View this text gets layed (true for global, false for player)
+     * @param slot which slot this text will be filled in
      *
      * @return The Text or Value this Variable contains.
      */
-    public String getText(String arg, int id, Short pingRef, ProxiedPlayer player, Boolean global);
+    public String getText(String arg, int id, Short pingRef, ProxiedPlayer player, Boolean global, int slot);
 }
