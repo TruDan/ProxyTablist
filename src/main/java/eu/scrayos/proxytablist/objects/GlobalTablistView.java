@@ -77,8 +77,6 @@ public class GlobalTablistView {
         Preconditions.checkArgument(slotNumber > -1, "Slot number is under 0");
         Preconditions.checkNotNull(text, "Text can not be null");
 
-        if(text.equals("")) return;
-
         text = (text.length() > 16) ? text.substring(0,16) : text;
 
         //Tell all PlayerTablistViews we got a update
@@ -86,7 +84,7 @@ public class GlobalTablistView {
             playerTablistView.setSlot(slotNumber, "", (short) 0);
         }
 
-        newView[slotNumber - 1] = new SlotContainer(text, ping);
+        newView[slotNumber - 1] = (text.equals("")) ? null : new SlotContainer(text, ping);
     }
 
     public static void fireUpdate() {
