@@ -44,7 +44,7 @@ public class PlayerTablistView {
             changedSlot = slotNumber;
         }
 
-        newView[slotNumber - 1] = new SlotContainer(text, ping);
+        newView[slotNumber - 1] = (text.equals("")) ? null : new SlotContainer(text, ping);
     }
 
     /**
