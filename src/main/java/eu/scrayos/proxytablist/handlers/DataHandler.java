@@ -103,7 +103,7 @@ public class DataHandler {
                             variableContainers[slot] = new VariableContainer();
                         }
 
-                        variableContainers[slot].addVariableMatch(v, m.group());
+                        variableContainers[slot].addVariableMatch(v, m.toMatchResult());
                         String text = m.replaceFirst("");
                         m = v.getPattern().matcher(text);
                     }
@@ -132,25 +132,38 @@ public class DataHandler {
                 String columnvalue = ProxyTablist.getInstance().getConfig().getStringList("customcolumns." + (c + 1)).get(r);
                 if (variableContainers[slot] == null) {
                     //Check for static text change
-                    if ((GlobalTablistView.getSlot(slot + 1) == null && !columnvalue.equals("")) || !GlobalTablistView.getSlot(slot + 1).equals(columnvalue)) {
+                    if ((GlobalTablistView.getSlot(slot + 1) == null && !columnvalue.equals("")) || !GlobalTablistView.getSlot(slot + 1).getText().equals(columnvalue)) {
                         GlobalTablistView.setSlot(slot + 1, columnvalue, (short) 0);
                     }
                 } else {
                     VariableContainer currentVariable = variableContainers[slot];
+
                     //Check each Row first so we check them as they get delivered
                     for (ProxiedPlayer pp : ProxyTablist.getInstance().getProxy().getPlayers()) {
                         Short ping = 0;
                         Boolean global = true;
+                        Boolean updated = false;
                         String text = columnvalue;
 
                         for (int i = 0; i < currentVariable.getVariable().size(); i++) {
-                            text = text.replace(currentVariable.getFoundStr().get(i), currentVariable.getVariable().get(i).getText(currentVariable.getFoundStr().get(i), refreshId, ping, pp, global, slot));
+                            Variable variable = currentVariable.getVariable().get(i);
+                            variable.setMatchResult(currentVariable.getFoundStr().get(i));
+                            variable.setRefreshId(refreshId);
+
+                            if(variable.hasUpdate(slot, pp)) {
+                                text = text.replace(currentVariable.getFoundStr().get(i).group(), variable.getText(ping));
+
+                                global = global && variable.isForGlobalTablist();
+                                updated = true;
+                            }
                         }
 
-                        if (global) {
-                            GlobalTablistView.setSlot(slot + 1, text, ping);
-                        } else {
-                            GlobalTablistView.getPlayerTablistView(pp).setSlot(slot + 1, text, ping);
+                        if (updated) {
+                            if (global) {
+                                GlobalTablistView.setSlot(slot + 1, text, ping);
+                            } else {
+                                GlobalTablistView.getPlayerTablistView(pp).setSlot(slot + 1, text, ping);
+                            }
                         }
                     }
                 }
