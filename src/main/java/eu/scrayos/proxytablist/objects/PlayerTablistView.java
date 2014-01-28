@@ -107,9 +107,8 @@ public class PlayerTablistView {
         for(int i = currentView.length - 1; i > changedSlot - 2; i--) {
             SlotContainer send = getSlot(i);
 
-            if(send != null) {
+            if(send != null)
                 proxiedPlayer.unsafe().sendPacket(new PlayerListItem(send.getText(), false, send.getPing()));
-            }
         }
 
         //Send the new Entries
