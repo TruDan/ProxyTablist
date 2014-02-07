@@ -132,7 +132,7 @@ public class DataHandler {
                 String columnvalue = ProxyTablist.getInstance().getConfig().getStringList("customcolumns." + (c + 1)).get(r);
                 if (variableContainers[slot] == null) {
                     //Check for static text change
-                    if ((GlobalTablistView.getSlot(slot + 1) == null && !columnvalue.equals("")) || !GlobalTablistView.getSlot(slot + 1).getText().equals(columnvalue)) {
+                    if ((GlobalTablistView.getSlot(slot) == null && !columnvalue.equals("")) || !GlobalTablistView.getSlot(slot).getText().equals(columnvalue)) {
                         GlobalTablistView.setSlot(slot + 1, columnvalue, (short) 0);
                     }
                 } else {
