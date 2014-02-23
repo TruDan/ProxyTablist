@@ -12,13 +12,12 @@ public class Tablist implements CustomTabList {
 
     @Override
     public int getColumns() {
-        return (int) Math.floor(ProxyTablist.getInstance().getProxy().getConfigurationAdapter().getListeners().iterator().next().getTabListSize() / 20);
+        return (int) Math.floor(getSize() / 20);
     }
 
     @Override
     public int getRows() {
-        int size = ProxyTablist.getInstance().getProxy().getConfigurationAdapter().getListeners().iterator().next().getTabListSize();
-        return (size > 20 ? 20 : size);
+        return (getSize() > 20 ? 20 : getSize());
     }
 
     @Override
