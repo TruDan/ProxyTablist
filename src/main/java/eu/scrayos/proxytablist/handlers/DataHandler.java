@@ -130,7 +130,7 @@ public class DataHandler {
                 }
 
                 //Check which Column handles this slot
-                String columnvalue = ProxyTablist.getInstance().getConfig().getStringList("customcolumns." + (c + 1)).get(r);
+                String columnvalue = ChatColor.translateAlternateColorCodes('&', ProxyTablist.getInstance().getConfig().getStringList("customcolumns." + (c + 1)).get(r));
                 if (variableContainers[slot] == null) {
                     //Check for static text change
                     if ((GlobalTablistView.getSlot(slot) == null && !columnvalue.equals("")) || !GlobalTablistView.getSlot(slot).getText().equals(columnvalue)) {
