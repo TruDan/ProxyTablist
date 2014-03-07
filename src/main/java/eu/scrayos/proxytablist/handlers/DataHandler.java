@@ -3,6 +3,7 @@ package eu.scrayos.proxytablist.handlers;
 import eu.scrayos.proxytablist.ProxyTablist;
 import eu.scrayos.proxytablist.api.Variable;
 import eu.scrayos.proxytablist.objects.GlobalTablistView;
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.io.File;
@@ -94,7 +95,7 @@ public class DataHandler {
                 }
 
                 //Check which Column handles this slot
-                String columnvalue = ProxyTablist.getInstance().getConfig().getStringList("customcolumns." + (c + 1)).get(r);
+                String columnvalue = ChatColor.translateAlternateColorCodes('&', ProxyTablist.getInstance().getConfig().getStringList("customcolumns." + (c + 1)).get(r));
                 for (Variable v : loadedVariables) {
                     Matcher m = v.getPattern().matcher(columnvalue);
 

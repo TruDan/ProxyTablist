@@ -7,7 +7,7 @@ import net.md_5.bungee.api.tab.CustomTabList;
 public class Tablist implements CustomTabList {
     @Override
     public synchronized void clear() {
-        //Do nothing
+        //NOTHING
     }
 
     @Override
@@ -37,32 +37,32 @@ public class Tablist implements CustomTabList {
 
     @Override
     public void update() {
-        //Do nothing
+        //NOTHING
     }
 
     @Override
     public void init(ProxiedPlayer proxiedPlayer) {
-        //DO NOTHING
+        //NOTHING
     }
 
     @Override
     public void onConnect() {
-        //DO NOTHING
+        //NOTHING
     }
 
     @Override
     public void onServerChange() {
-        //DO NOTHING
+        //NOTHING
     }
 
     @Override
     public void onPingChange(int i) {
-        //DO NOTHING
+        //NOTHING
     }
 
     @Override
     public void onDisconnect() {
-        //DO NOTHING
+        //NOTHING
     }
 
     @Override
