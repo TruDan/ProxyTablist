@@ -19,7 +19,7 @@ import java.util.regex.Matcher;
 public class DataHandler {
     private HashSet<Variable> loadedVariables = new HashSet<>();
     private VariableContainer[] variableContainers;
-    private int refreshID = 0;
+    private int refreshID = -1;
 
     public DataHandler() {
         //Load variables
@@ -180,6 +180,6 @@ public class DataHandler {
 
     public int getRefreshID() {
         refreshID++;
-        return refreshID - 1;
+        return refreshID;
     }
 }
