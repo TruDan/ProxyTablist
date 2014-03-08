@@ -95,7 +95,7 @@ public class DataHandler {
                 }
 
                 //Check which Column handles this slot
-                String columnvalue = ChatColor.translateAlternateColorCodes('&', ProxyTablist.getInstance().getConfig().getStringList("customcolumns." + (c + 1)).get(r));
+                String columnvalue = ProxyTablist.getInstance().getConfig().getStringList("customcolumns." + (c + 1)).get(r);
                 for (Variable v : loadedVariables) {
                     Matcher m = v.getPattern().matcher(columnvalue);
 
@@ -130,11 +130,11 @@ public class DataHandler {
                 }
 
                 //Check which Column handles this slot
-                String columnvalue = ChatColor.translateAlternateColorCodes('&', ProxyTablist.getInstance().getConfig().getStringList("customcolumns." + (c + 1)).get(r));
+                String columnvalue = ProxyTablist.getInstance().getConfig().getStringList("customcolumns." + (c + 1)).get(r);
                 if (variableContainers[slot] == null) {
                     //Check for static text change
                     if ((GlobalTablistView.getSlot(slot) == null && !columnvalue.equals("")) || !GlobalTablistView.getSlot(slot).getText().equals(columnvalue)) {
-                        GlobalTablistView.setSlot(slot + 1, columnvalue, (short) 0);
+                        GlobalTablistView.setSlot(slot + 1, ChatColor.translateAlternateColorCodes('&', columnvalue), (short) 0);
                     }
                 } else {
                     VariableContainer currentVariable = variableContainers[slot];
