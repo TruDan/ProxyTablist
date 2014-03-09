@@ -82,7 +82,7 @@ public class PlayerTablistView {
     }
 
     /**
-     * Send out an Update to the Player
+     * Send out an Update to the player
      */
     public void fireUpdate() {
         //No slot has been changed
