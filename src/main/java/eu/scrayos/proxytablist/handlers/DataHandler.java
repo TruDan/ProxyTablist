@@ -123,14 +123,9 @@ public class DataHandler {
 
     public void update() {
         int refreshId = getRefreshID();
-
-        //Keep track of the Array slot :)
         int slot = 0;
-
         for (int r = 0; r < ProxyTablist.getInstance().getTablist().getRows(); r++) {
             for (int c = 0; c < ProxyTablist.getInstance().getTablist().getColumns(); c++) {
-
-                //Check which Column handles this slot
                 String columnvalue = ProxyTablist.getInstance().getConfig().getStringList("customcolumns." + (c + 1)).get(r);
                 if (variableContainers[slot] == null) {
                     if (columnvalue.isEmpty()) {
@@ -140,27 +135,22 @@ public class DataHandler {
                     }
                 } else {
                     VariableContainer currentVariable = variableContainers[slot];
-
-                    //Check each Row first so we check them as they get delivered
                     for (ProxiedPlayer pp : ProxyTablist.getInstance().getProxy().getPlayers()) {
                         Short ping = 0;
                         Boolean global = true;
                         Boolean updated = false;
-                        String text = columnvalue;
+                        String text = ChatColor.translateAlternateColorCodes('&', columnvalue);
 
                         for (int i = 0; i < currentVariable.getVariable().size(); i++) {
                             Variable variable = currentVariable.getVariable().get(i);
                             variable.setMatchResult(currentVariable.getFoundStr().get(i));
                             variable.setRefreshId(refreshId);
-
                             if (variable.hasUpdate(slot, pp)) {
                                 text = text.replace(currentVariable.getFoundStr().get(i).group(), variable.getText(ping));
-
                                 global = global && variable.isForGlobalTablist();
                                 updated = true;
                             }
                         }
-
                         if (updated) {
                             if (text.isEmpty()) {
                                 text = getPlaceholder(refreshId);
@@ -173,13 +163,9 @@ public class DataHandler {
                         }
                     }
                 }
-
                 slot++;
             }
         }
-
-
-        //Let the Tablist refresh
         GlobalTablistView.fireUpdate();
     }
 
